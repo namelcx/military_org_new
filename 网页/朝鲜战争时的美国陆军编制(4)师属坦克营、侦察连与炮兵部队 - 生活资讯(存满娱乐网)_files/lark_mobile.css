@@ -1,0 +1,24 @@
+﻿@media screen and (max-width: 768px) {
+    .layui-container{
+        padding:0 5px;
+    }
+    .lark-carousel-item .name {
+        top: 60%;
+    }
+    .layui-form-item .layui-input-inline + .layui-form-mid{
+        margin-left: 0;
+    }
+
+    .art-detail {
+        padding: 0 5px;
+        line-height: 24px;
+    }
+
+    .lark-container .lark-main {
+        margin: 0;
+    }
+
+    .lark-pd {
+        padding: 5px;
+    }
+}
