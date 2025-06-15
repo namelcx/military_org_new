@@ -1,0 +1,38 @@
+
+(function(){
+function observer(){
+  var contentid = $('meta[name="contentid"]').attr("content");
+  var author = $('meta[name="author"]').attr("content");
+  var publishDate = $('meta[name="publishdate"]').attr("content");
+  var catalogs = $('meta[name="catalogs"]').attr("content");
+
+  if(typeof(contentid) == "undefined"){
+      contentid = catalogs;
+  }
+
+  if(contentid.indexOf("_") > -1){
+	var tmp = contentid.split("_");
+        contentid = tmp[tmp.length - 1];
+  }
+
+  if(typeof(publishDate) == 'undefined' || publishDate === ''){
+     publishDate = '2020-10-14';
+  }
+
+  if(typeof(author) == 'undefined' || author === ''){
+      author = catalogs;
+  } else { 
+      author = encodeURI(author);
+  }
+  title = encodeURI(document.title);
+  var loc = document.location.href;
+  if(loc.indexOf("?") > -1){
+     loc = loc.substr(0, loc.indexOf("?"));
+  }
+  var src = '//channel-analysis.gmw.cn/1.gif?s=' + new Date().getTime() + '&cl=' + catalogs + '&pd='+ publishDate +'&ci='+ contentid + '&r=' + loc + '&at=' + author + '&tt=' + title;
+  //document.write("<img src='"+ src +"' id='detect' style='display:none;'>");
+   $("body").append("<img src='"+ src +"' id='detect' style='display:none;' />");
+}
+
+observer();
+})();
