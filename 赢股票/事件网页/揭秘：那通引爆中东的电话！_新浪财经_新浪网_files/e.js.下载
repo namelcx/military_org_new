@@ -1,0 +1,96 @@
+/**
+ * 广告ID: u7002751 (升级版)
+ * 尺寸: 文字链
+ * 优化: IIFE封装、防重复加载、协议自适应
+ */
+(function() {
+    'use strict';
+    if (window._ad_u7002751_loaded) return;
+    window._ad_u7002751_loaded = true;
+    var adSlotIds = ['u7003143'];
+    var state = { currentIndex: 0, rotations: {}, containers: [], mainContainerId: null, adScriptLoaded: false };
+    adSlotIds.forEach(function(id) { state.rotations[id] = 0; });
+    function addStyles() {
+        var styleId = 'ad-u7002751-styles';
+        if (document.getElementById(styleId)) return;
+        var style = document.createElement('style');
+        style.id = styleId; style.type = 'text/css';
+        var css = '.ad-carousel-u7002751{width:100%}.ad-carousel-u7002751-item{width:100%}';
+        if (style.styleSheet) { style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); }
+        (document.head || document.getElementsByTagName('head')[0]).appendChild(style);
+    }
+    function ready(callback) {
+        if (document.readyState === 'complete' || (document.readyState !== 'loading' && !document.documentElement.doScroll)) { callback(); }
+        else if (document.addEventListener) { document.addEventListener('DOMContentLoaded', callback, false); }
+        else if (document.attachEvent) { document.attachEvent('onreadystatechange', function() { if (document.readyState === 'complete') callback(); }); }
+    }
+    function loadAdScript(callback) {
+        if (state.adScriptLoaded) { if (callback) callback(); return; }
+        var existingScript = document.querySelector('script[src*="cpro.baidustatic.com"]');
+        if (existingScript) { state.adScriptLoaded = true; if (callback) callback(); return; }
+        var script = document.createElement('script');
+        script.src = (window.location.protocol === 'https:' ? 'https:' : 'http:') + '//cpro.baidustatic.com/cpro/ui/cm.js';
+        script.async = true;
+        script.onload = script.onreadystatechange = function() {
+            if (!script.readyState || script.readyState === 'loaded' || script.readyState === 'complete') {
+                script.onload = script.onreadystatechange = null; state.adScriptLoaded = true; if (callback) callback();
+            }
+        };
+        (document.head || document.getElementsByTagName('head')[0]).appendChild(script);
+    }
+    function initAd(index) {
+        if (index < 0 || index >= state.containers.length) return;
+        var container = state.containers[index];
+        if (container.initialized) return;
+        window.slotbydup = window.slotbydup || [];
+        window.slotbydup.push({ id: container.id, container: container.containerId, async: true });
+        container.initialized = true;
+    }
+    function createContainers() {
+        state.mainContainerId = '_ad_u7002751_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+        var mainDiv = document.createElement('div');
+        mainDiv.id = state.mainContainerId; mainDiv.className = 'ad-carousel-u7002751';
+        for (var i = 0; i < adSlotIds.length; i++) {
+            var subContainerId = state.mainContainerId + '_' + i;
+            var adDiv = document.createElement('div');
+            adDiv.id = subContainerId; adDiv.className = 'ad-carousel-u7002751-item';
+            adDiv.style.display = (i === state.currentIndex) ? 'block' : 'none';
+            mainDiv.appendChild(adDiv);
+            state.containers.push({ id: adSlotIds[i], containerId: subContainerId, element: adDiv, initialized: false });
+        }
+        return mainDiv;
+    }
+    function insertContainer(mainDiv) {
+        var scripts = document.getElementsByTagName('script');
+        var currentScript = null;
+        for (var i = scripts.length - 1; i >= 0; i--) { if (scripts[i].src && scripts[i].src.indexOf('u7002751') !== -1) { currentScript = scripts[i]; break; } }
+        if (!currentScript) currentScript = scripts[scripts.length - 1];
+        if (currentScript && currentScript.parentNode) {
+            if (currentScript.nextSibling) { currentScript.parentNode.insertBefore(mainDiv, currentScript.nextSibling); }
+            else { currentScript.parentNode.appendChild(mainDiv); }
+        } else if (document.body) { document.body.appendChild(mainDiv); }
+        else { setTimeout(function() { insertContainer(mainDiv); }, 100); return false; }
+        return true;
+    }
+    function loadBaiduTongji() {
+        if (window._hmt) return;
+        window._hmt = window._hmt || [];
+        var hm = document.createElement('script');
+        hm.src = 'https://hm.baidu.com/hm.js?90c40f528e0b2106bc03da5aadec190f';
+        var s = document.getElementsByTagName('script')[0];
+        if (s && s.parentNode) { s.parentNode.insertBefore(hm, s); }
+        else { (document.head || document.getElementsByTagName('head')[0]).appendChild(hm); }
+    }
+    function init() {
+        if (adSlotIds.length === 0) return;
+        addStyles();
+        loadBaiduTongji();
+        ready(function() {
+            var mainDiv = createContainers();
+            if (!insertContainer(mainDiv)) return;
+            state.rotations[adSlotIds[state.currentIndex]]++;
+            loadAdScript(function() { initAd(state.currentIndex); });
+        });
+    }
+    init();
+})();
